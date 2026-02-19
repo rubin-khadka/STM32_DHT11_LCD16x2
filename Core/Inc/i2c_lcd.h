@@ -17,5 +17,6 @@ void lcd_send_data (char data);  // Send data to the lcd
 void lcd_send_string (char *str);  // Send string to the lcd
 void lcd_put_cur(int row, int col);  // Put cursor at the entered position row, col;
 void lcd_clear (void);
+void lcd_complete_test(void);
 
 #endif /* INC_I2C_LCD_H_ */

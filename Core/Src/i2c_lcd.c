@@ -21,6 +21,7 @@ void lcd_send_cmd(char cmd) {
 	data_t[3] = data_l | 0x08;  //en=0, rs=0
 	HAL_I2C_Master_Transmit(&hi2c1, SLAVE_ADDRESS_LCD, (uint8_t*) data_t, 4,
 			100);
+	HAL_Delay(5);
 }
 
 void lcd_send_data(char data) {
@@ -55,31 +56,28 @@ void lcd_put_cur(int row, int col) {
 }
 
 void lcd_init(void) {
-	// 4 bit Initialization
-	HAL_Delay(50);  // wait for >40ms
-	lcd_send_cmd(0x30);
-	HAL_Delay(5);  // wait for >4.1ms
-	lcd_send_cmd(0x30);
-	HAL_Delay(1);  // wait for >100us
-	lcd_send_cmd(0x30);
-	HAL_Delay(10);
-	lcd_send_cmd(0x20);  // 4bit mode
-	HAL_Delay(10);
+    HAL_Delay(100);  // Longer power-up delay
 
-	// Display Initialization
-	lcd_send_cmd(0x28); // Function set --> DL=0 (4 bit mode), N = 1 (2 line display) F = 0 (5x8 characters)
-	HAL_Delay(1);
-	lcd_send_cmd(0x08); //Display on/off control --> D=0,C=0, B=0  ---> display off
-	HAL_Delay(1);
-	lcd_send_cmd(0x01);  // clear display
-	HAL_Delay(1);
-	HAL_Delay(1);
-	lcd_send_cmd(0x06); //Entry mode set --> I/D = 1 (increment cursor) & S = 0 (no shift)
-	HAL_Delay(1);
-	lcd_send_cmd(0x0C); //Display on/off control --> D = 1, C and B = 0. (Cursor and blink, last two bits)
+    // Reset sequence (required for 4-bit mode)
+    lcd_send_cmd(0x33);  // 8-bit mode first
+    HAL_Delay(10);
+    lcd_send_cmd(0x32);  // 4-bit mode
+    HAL_Delay(10);
+
+    lcd_send_cmd(0x28);  // 2 lines, 5x8 font
+    HAL_Delay(5);
+    lcd_send_cmd(0x08);  // Display off
+    HAL_Delay(5);
+    lcd_send_cmd(0x01);  // Clear display
+    HAL_Delay(5);
+    lcd_send_cmd(0x06);  // Entry mode
+    HAL_Delay(5);
+    lcd_send_cmd(0x0E);  // Display on, cursor off
+    HAL_Delay(5);
 }
 
 void lcd_send_string(char *str) {
 	while (*str)
 		lcd_send_data(*str++);
 }
+

@@ -6,6 +6,8 @@
  */
 
 #include "i2c_lcd.h"
+#include "stdio.h"
+
 extern I2C_HandleTypeDef hi2c1;
 
 #define SLAVE_ADDRESS_LCD 0x4E
@@ -72,7 +74,7 @@ void lcd_init(void) {
     HAL_Delay(5);
     lcd_send_cmd(0x06);  // Entry mode
     HAL_Delay(5);
-    lcd_send_cmd(0x0E);  // Display on, cursor off
+    lcd_send_cmd(0x0C);  // Display on, cursor off
     HAL_Delay(5);
 }
 
@@ -80,4 +82,23 @@ void lcd_send_string(char *str) {
 	while (*str)
 		lcd_send_data(*str++);
 }
+
+void Display_Temp(float Temp) {
+	char str[20] = { 0 };
+	lcd_put_cur(0, 0);
+
+	sprintf(str, "TEMP: %.2f ", Temp);
+	lcd_send_string(str);
+	lcd_send_data('C');
+}
+
+void Display_Hum(float Hum) {
+	char str[20] = { 0 };
+	lcd_put_cur(1, 0);
+
+	sprintf(str, "HUMD: %.2f ", Hum);
+	lcd_send_string(str);
+	lcd_send_data('%');
+}
+
 

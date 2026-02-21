@@ -1,5 +1,9 @@
 # STM32f103C8T6 DHT11 LCD16x2 Project
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![STM32](https://img.shields.io/badge/STM32-F103C8T6-blue)
+![CubeIDE](https://img.shields.io/badge/IDE-STM32CubeIDE-darkblue)
+
 ## Video Demonstration
 
 https://github.com/user-attachments/assets/918d25ad-6c64-4fc3-ba8d-22d86707c7c0
@@ -74,8 +78,7 @@ Instead of measuring pulse widths, I used a different approach based on the timi
 For each bit:
 1. Wait for line to go HIGH
 2. Delay exactly 40µs
-3. If line still HIGH → logic 1
-   If line is LOW → logic 0
+3. If line still HIGH → logic 1 and If line is LOW → logic 0
 
 🔗 [View DHT11 Driver Source Code](https://github.com/rubin-khadka/STM32_DHT11_LCD16x2/blob/main/Core/Src/dht11.c)
 
@@ -102,8 +105,8 @@ git clone https://github.com/rubin-khadka/STM32_DHT11_LCD16x2.git
 
 ### Expected Output
 ```bash
-Temp: 24.0 C
-Hum: 45.0 %
+TEMP: 24.0 C
+HUMD: 45.0 %
 ```
 ## Resources
 - [STM32F103 Datasheet](https://www.st.com/resource/en/datasheet/stm32f103c8.pdf)
